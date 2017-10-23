@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="http://pubnub.github.io/eon/v/eon/0.0.9/eon.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/v/eon/0.0.9/eon.css"/>
+</head>
+<body>
+<script type="text/javascript">
+	var pn = PUBNUB.init({
+	    publish_key: 'pub-c-aa1b5efc-df3c-4e26-8333-a57d47cad088',
+	    subscribe_key: 'sub-c-987233e4-0c5c-11e6-a6dc-02ee2ddab7fe',
+	    // ssl: (('https:' == document.location.protocol) ? true : false)
+	  });
+</script>
+
+<script type="text/javascript">
+		  setInterval(function(){
+
+			  // pn.publish({
+			  //   channel:  'south-coast-bus-zayan',
+			  //   message:
+			  //     [
+			  //       {"latlng":[37.337104, -121.881696]},
+			  //       {"latlng":[37.339629, -121.885247]},
+			  //       {"latlng":[37.329418, -121.877609]},
+			  //       {"latlng":[37.332963, -121.889212]}
+			  //     ]
+			  // });
+			  if (navigator.geolocation) {
+			        navigator.geolocation.getCurrentPosition(function(position) {
+
+			          var latitude = position.coords.latitude;
+			          var longitude = position.coords.longitude;
+
+			          if (latitude.toString().length > 0 & longitude.toString().length > 0) {
+			          		console.log(typeof latitude + ", " + typeof longitude);
+			          		pn.publish({
+							    channel:  'south-coast-bus-zayan',
+							    message:
+							      [
+							        {"latlng":[latitude , longitude], "data": {"name": "Zayan"}}
+							      ]
+							  });
+			          }
+					});
+			    }
+
+			}, 1000);
+	</script>
+
+</body>
+</html>
